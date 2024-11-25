@@ -1,0 +1,39 @@
+#include <iostream>
+#include <thread>
+using namespace std;
+
+// Aquesta funció és la que s'encarrega d'imprimir els números imparells de l'1 al 10.
+// Aquí faig que el bucle comenci en 1 i que vagi sumant de 2 en 2, per així assegurar-me que només imprimeixi els números imparells.
+// Això ho farem des d'un fil independent.
+void printImparells() {
+    for (int i = 1; i <= 10; i += 2) {
+        cout << "Fil 1 (imparell): " << i << endl;
+    }
+}
+
+// Aquesta funció imprimeix els números parells de l'1 al 10.
+// El bucle comença en 2 i va sumant de 2 en 2 per assegurar que només es mostrin els números parells.
+// Igual que amb els números imparells, aquest procés s'executarà en un altre fil.
+void printParells() {
+    for (int i = 2; i <= 10; i += 2) {
+        cout << "Fil 2 (parell): " << i << endl;
+    }
+}
+
+int main() {
+    // Aquí creo els dos fils que s'encarregaran d'executar les funcions anteriorment definides.
+    // El primer fil (thread1) executarà la funció que imprimeix els números imparells.
+    // El segon fil (thread2) farà el mateix però amb els números parells.
+    thread thread1(printImparells);
+    thread thread2(printParells);
+
+    // Ara faig que el programa principal esperi que els dos fils acabin el seu treball abans de continuar.
+    // Ho faig amb el métode join() per cada fil.
+    thread1.join();
+    thread2.join();
+
+    // Quan els fils han acabat, imprimeixo el missatge indicant-ho.
+    cout << "Tots els fils han acabat." << endl;
+
+    return 0;
+}
